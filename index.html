@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IoT Kontrol Panel</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Background grid -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <button class="menu-btn" id="menuBtn">
+        <span></span><span></span><span></span>
+      </button>
+      <h1 class="header-title">KONTROL PANEL</h1>
+    </div>
+    <div class="header-right">
+      <div class="connection-badge" id="connBadge">
+        <span class="conn-dot"></span>
+        <span class="conn-text" id="connText">ONLINE</span>
+      </div>
+      <button class="icon-btn" title="Settings">⚙</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-grid">
+
+    <!-- Temperature Card -->
+    <div class="card card-sensor" id="tempCard">
+      <div class="card-header">
+        <span class="card-label">TEMPERATURE</span>
+        <div class="card-badge temp-badge">DHT11</div>
+      </div>
+      <div class="gauge-wrapper">
+        <svg class="gauge" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+          <!-- Track -->
+          <path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="14" stroke-linecap="round"/>
+          <!-- Value arc -->
+          <path id="tempArc" d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="url(#tempGrad)" stroke-width="14" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="100"/>
+          <defs>
+            <linearGradient id="tempGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#00e5ff"/>
+              <stop offset="50%" style="stop-color:#00ff88"/>
+              <stop offset="100%" style="stop-color:#ff4e50"/>
+            </linearGradient>
+          </defs>
+          <!-- Needle -->
+          <g id="tempNeedle" transform="rotate(0 100 110)">
+            <line x1="100" y1="110" x2="100" y2="42" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+            <circle cx="100" cy="110" r="5" fill="#fff"/>
+          </g>
+          <!-- Ticks -->
+          <text x="16" y="128" fill="rgba(255,255,255,0.4)" font-size="9" font-family="Share Tech Mono">0°</text>
+          <text x="88" y="22" fill="rgba(255,255,255,0.4)" font-size="9" font-family="Share Tech Mono">25°</text>
+          <text x="170" y="128" fill="rgba(255,255,255,0.4)" font-size="9" font-family="Share Tech Mono">50°</text>
+        </svg>
+        <div class="gauge-value" id="tempValue">--</div>
+        <div class="gauge-unit">°C</div>
+      </div>
+      <div class="sensor-meta">
+        <span class="meta-item">MIN <strong id="tempMin">--</strong></span>
+        <span class="meta-divider"></span>
+        <span class="meta-item">MAX <strong id="tempMax">--</strong></span>
+      </div>
+    </div>
+
+    <!-- Humidity Card -->
+    <div class="card card-sensor" id="humCard">
+      <div class="card-header">
+        <span class="card-label">HUMIDITY</span>
+        <div class="card-badge hum-badge">DHT11</div>
+      </div>
+      <div class="gauge-wrapper">
+        <svg class="gauge" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="14" stroke-linecap="round"/>
+          <path id="humArc" d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="url(#humGrad)" stroke-width="14" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="150"/>
+          <defs>
+            <linearGradient id="humGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#1a78ff"/>
+              <stop offset="60%" style="stop-color:#00c8ff"/>
+              <stop offset="100%" style="stop-color:#a259ff"/>
+            </linearGradient>
+          </defs>
+          <g id="humNeedle" transform="rotate(0 100 110)">
+            <line x1="100" y1="110" x2="100" y2="42" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+            <circle cx="100" cy="110" r="5" fill="#fff"/>
+          </g>
+          <text x="16" y="128" fill="rgba(255,255,255,0.4)" font-size="9" font-family="Share Tech Mono">0%</text>
+          <text x="83" y="22" fill="rgba(255,255,255,0.4)" font-size="9" font-family="Share Tech Mono">50%</text>
+          <text x="164" y="128" fill="rgba(255,255,255,0.4)" font-size="9" font-family="Share Tech Mono">100%</text>
+        </svg>
+        <div class="gauge-value" id="humValue">--</div>
+        <div class="gauge-unit">%</div>
+      </div>
+      <div class="sensor-meta">
+        <span class="meta-item">MIN <strong id="humMin">--</strong></span>
+        <span class="meta-divider"></span>
+        <span class="meta-item">MAX <strong id="humMax">--</strong></span>
+      </div>
+    </div>
+
+    <!-- LED Controls -->
+    <div class="card card-led">
+      <div class="card-header">
+        <span class="card-label">LED CONTROL</span>
+      </div>
+
+      <div class="led-item" id="led1Item">
+        <div class="led-icon-wrap">
+          <div class="led-bulb" id="led1Bulb">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="16" r="11" fill="currentColor" opacity="0.9"/>
+              <rect x="15" y="27" width="10" height="3" rx="1.5" fill="currentColor" opacity="0.7"/>
+              <rect x="16" y="30" width="8" height="2.5" rx="1.25" fill="currentColor" opacity="0.5"/>
+              <!-- rays -->
+              <line x1="20" y1="2" x2="20" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="ray"/>
+              <line x1="30" y1="6" x2="28" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="ray"/>
+              <line x1="34" y1="16" x2="31" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="ray"/>
+              <line x1="10" y1="6" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="ray"/>
+              <line x1="6" y1="16" x2="9" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="ray"/>
+            </svg>
+          </div>
+        </div>
+        <div class="led-info">
+          <div class="led-name">LED 1</div>
+          <div class="led-status" id="led1Status">OFF</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="led1Toggle" onchange="toggleLED(1)"/>
+          <span class="toggle-track">
+            <span class="toggle-thumb"></span>
+          </span>
+        </label>
+      </div>
+
+      <div class="led-divider"></div>
+
+      <div class="led-item" id="led2Item">
+        <div class="led-icon-wrap">
+          <div class="led-bulb" id="led2Bulb">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="16" r="11" fill="currentColor" opacity="0.9"/>
+              <rect x="15" y="27" width="10" height="3" rx="1.5" fill="currentColor" opacity="0.7"/>
+              <rect x="16" y="30" width="8" height="2.5" rx="1.25" fill="currentColor" opacity="0.5"/>
+              <line x1="20" y1="2" x2="20" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="ray"/>
+              <line x1="30" y1="6" x2="28" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="ray"/>
+              <line x1="34" y1="16" x2="31" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="ray"/>
+              <line x1="10" y1="6" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="ray"/>
+              <line x1="6" y1="16" x2="9" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="ray"/>
+            </svg>
+          </div>
+        </div>
+        <div class="led-info">
+          <div class="led-name">LED 2</div>
+          <div class="led-status" id="led2Status">OFF</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="led2Toggle" onchange="toggleLED(2)"/>
+          <span class="toggle-track">
+            <span class="toggle-thumb"></span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Chart Card -->
+    <div class="card card-chart">
+      <div class="card-header">
+        <span class="card-label">SENSOR DHT11 — HISTORY</span>
+        <div class="chart-actions">
+          <button class="chart-btn" id="clearBtn" title="Clear data" onclick="clearHistory()">
+            <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor">
+              <path d="M9 3H11L11.5 2H8.5L9 3ZM3 4H17V5H3V4ZM5 6H15L14 17H6L5 6ZM8 8V15H9V8H8ZM11 8V15H12V8H11Z"/>
+            </svg>
+          </button>
+          <button class="chart-btn" title="Export" onclick="exportCSV()">
+            <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor">
+              <path d="M10 2L14 7H11V13H9V7H6L10 2ZM4 15H16V17H4V15Z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="sensorChart"></canvas>
+      </div>
+      <div class="chart-legend">
+        <span class="legend-item"><span class="legend-dot temp-dot"></span>TEMPERATURE (°C)</span>
+        <span class="legend-item"><span class="legend-dot hum-dot"></span>HUMIDITY (%)</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer / Last Update -->
+  <footer class="footer">
+    <span class="footer-label">LAST UPDATE:</span>
+    <span class="footer-time" id="lastUpdate">--:--:--</span>
+    <span class="footer-sep">|</span>
+    <span class="footer-label">DATA POINTS:</span>
+    <span class="footer-count" id="dataCount">0</span>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
