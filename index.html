@@ -26,7 +26,7 @@
         <span class="conn-dot"></span>
         <span class="conn-text" id="connText">ONLINE</span>
       </div>
-      <button class="icon-btn" title="Settings">⚙</button>
+      <button class="icon-btn" id="gearBtn" title="Settings">⚙</button>
     </div>
   </header>
 
@@ -207,6 +207,64 @@
     <span class="footer-label">DATA POINTS:</span>
     <span class="footer-count" id="dataCount">0</span>
   </footer>
+
+  
+  <!-- Backdrop -->
+  <div class="backdrop" id="backdrop"></div>
+
+  <!-- Side Drawer -->
+  <aside class="drawer" id="drawer">
+    <div class="drawer-header">
+      <span class="drawer-title">DASHBOARD MENU</span>
+      <button class="icon-btn" id="drawerClose">✕</button>
+    </div>
+    <div class="drawer-section">
+      <div class="drawer-section-label">QUICK STATS</div>
+      <div class="stat-row"><span>Status</span><strong id="statStatus">--</strong></div>
+      <div class="stat-row"><span>Samples</span><strong id="statSamples">0</strong></div>
+      <div class="stat-row"><span>Avg Temp</span><strong id="statAvgTemp">--</strong> °C</div>
+      <div class="stat-row"><span>Avg Hum</span><strong id="statAvgHum">--</strong> %</div>
+    </div>
+    <div class="drawer-section">
+      <div class="drawer-section-label">SHORTCUTS</div>
+      <button class="drawer-link" onclick="exportCSV()">⬇  Export Data CSV</button>
+      <button class="drawer-link" onclick="clearHistory()">🗑  Bersihkan History</button>
+      <a class="drawer-link" href="https://www.hivemq.com/mqtt-cloud/" target="_blank" rel="noopener">☁  HiveMQ Cloud</a>
+    </div>
+    <div class="drawer-footer">
+      <span>IoT KONTROL PANEL</span>
+      <span class="muted">v2.0</span>
+    </div>
+  </aside>
+
+  <!-- Settings Panel -->
+  <aside class="settings-panel" id="settings">
+    <div class="drawer-header">
+      <span class="drawer-title">⚙  SETTINGS</span>
+      <button class="icon-btn" id="settingsClose">✕</button>
+    </div>
+    <div class="drawer-section">
+      <div class="drawer-section-label">TAMPILAN</div>
+      <label class="setting-field">
+        <span>Theme</span>
+        <select id="themeSelect">
+          <option value="dark">Dark (Neon)</option>
+          <option value="light">Light</option>
+        </select>
+      </label>
+    </div>
+    <div class="drawer-section">
+      <div class="drawer-section-label">ALERT</div>
+      <label class="setting-field">
+        <span>Suhu max (°C)</span>
+        <input type="number" id="tempAlertInput" min="20" max="80" step="0.5"/>
+      </label>
+    </div>
+    <div class="drawer-section">
+      <div class="drawer-section-label">DATA</div>
+      <button class="drawer-link danger" id="resetBtn">⟲  Reset History & Min/Max</button>
+    </div>
+  </aside>
 
   <!-- Toast Notification -->
   <div class="toast" id="toast"></div>
